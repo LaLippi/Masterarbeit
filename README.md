@@ -31,13 +31,13 @@ Der Container gibt Log-Daten im Konsolenfenster aus, daher wird zum Starten der 
 ## Webanwendung
 
 Bauen des JARs:
-1. ```cd ```[...]```/Implementation/mc_questions```
+1. In den Ordner "mc_questions" wechseln
 2. ```./mvnw clean package```
 
 Ausführen:
 1. Datenbank-Docker-Container starten (```docker start mc_questions_db```)
 2. Acra-Docker-Container starten (```./acra_server.sh```)
-3. ```java -jar ```[...]```/Implementation/mc_questions/target/mc_questions-1.0.jar```
+3. ```java -jar ```[...]```/mc_questions/target/mc_questions-1.0.jar``` (oder mit bereits gebauter Version ```java -jar mc_questions-1.0.jar``` im Wurzelordner)
 
 Zugriff: Im Browser über ```https://localhost:8443```
 
