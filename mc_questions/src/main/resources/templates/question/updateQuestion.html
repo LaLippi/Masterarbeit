@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Frage bearbeiten</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header ('Frage bearbeiten', ${currentUser.getRoleIndex()})}"></header>
+
+<main class="main-width h-centered">
+    <div>
+        <form class="create-form" th:action="@{/updateQuestion/{id}(id=${updateQuestion.getUuid()})}"
+              th:object="${newQuestion}" method="post">
+            <table>
+                <tr>
+                    <td><label for="questionText">Frage :</label></td>
+                    <td><input name="questionText" id="questionText" type="text"
+                               th:value="${updateQuestion.questionText}"></td>
+                </tr>
+                <tr>
+                    <td><label for="questionInfo">Info :</label></td>
+                    <td><input name="questionInfo" id="questionInfo" type="text"
+                               th:value="${updateQuestion.questionInfo}"></td>
+                </tr>
+                <tr>
+                    <td><label for="notQuestion">"Nicht"-Frage? :</label></td>
+                    <td><input name="notQuestion" id="notQuestion" type="checkbox"
+                               th:checked="${updateQuestion.notQuestion}"></td>
+                </tr>
+                <tr>
+                    <td><label for="correctAnswerId">Korrekte Antwort :</label></td>
+                    <td>
+                        <select id="correctAnswerId" name="correctAnswerId">
+                            <option th:each="answer : ${allAnswers}"
+                                    th:selected="${answer.getUuid() == updateQuestion.getCorrectAnswer().getUuid()}"
+                                    th:value="${answer.getUuid()}"
+                                    th:text="|(${answer.getUuid()}) ${answer.getText()}|"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="incorrectAnswerIds">Inkorrekte Antworten :</label></td>
+                    <td>
+                        <select id="incorrectAnswerIds" name="incorrectAnswerIds" multiple size="8">
+                            <option th:each="answer : ${allAnswers}"
+                                    th:selected="${updateQuestion.getIncorrectAnswerIds().contains(answer.getUuid())}"
+                                    th:value="${answer.getUuid()}"
+                                    th:text="|(${answer.getUuid()}) ${answer.getText()}|"></option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="reset" value="Zurücksetzen">
+            <input type="submit" value="Speichern">
+        </form>
+    </div>
+</main>
+</body>
+</html>

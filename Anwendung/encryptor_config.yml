@@ -1,0 +1,89 @@
+defaults:
+  crypto_envelope: acrablock
+  reencrypting_to_acrablocks: true
+
+schemas:
+  - table: "answer"
+    columns:
+      - id
+      - text
+    encrypted:
+      - column: "text"
+        searchable: true
+  - table: "answer_seq"
+    columns:
+      - next_val
+  - table: "app_user"
+    columns:
+      - id
+      - name
+      - password
+      - role
+    encrypted:
+      - column: "name"
+        searchable: true
+      - column: "role"
+  - table: "app_user_seq"
+    columns:
+      - next_val
+  - table: "exam"
+    columns:
+      - id
+      - date
+    encrypted:
+      - column: "date"
+        searchable: true
+  - table: "exam_question"
+    columns:
+      - exam_id
+      - question_id
+  - table: "exam_seq"
+    columns:
+      - next_val
+  - table: "question"
+    columns:
+      - id
+      - is_not_question
+      - question_info
+      - question_text
+      - author_id
+      - correct_answer_id
+    encrypted:
+      - column: "is_not_question"
+        searchable: true
+      - column: "question_info"
+      - column: "question_text"
+        searchable: true
+  - table: "question_incorrect_answer"
+    columns:
+      - question_id
+      - answer_id
+  - table: "question_seq"
+    columns:
+      - next_val
+  - table: "settings"
+    columns:
+      - id
+      - max_answers
+      - max_correct_answers
+      - max_not_questions
+      - max_questions
+      - max_used_questions
+      - min_answers
+      - min_questions
+      - name
+      - years_until_questions_are_free
+    encrypted:
+      - column: "max_answers"
+      - column: "max_correct_answers"
+      - column: "max_not_questions"
+      - column: "max_questions"
+      - column: "max_used_questions"
+      - column: "min_answers"
+      - column: "min_questions"
+      - column: "name"
+        searchable: true
+      - column: "years_until_questions_are_free"
+  - table: settings_seq
+    columns:
+      - next_val

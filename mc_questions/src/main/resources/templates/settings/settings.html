@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Einstellungen</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header ('Einstellungen', ${currentUser.getRoleIndex()})}"></header>
+
+<main class="h-centered main-width">
+    <form th:action="@{/setSettings}" th:object="${defaultSettings}" method="post">
+        <table>
+            <tr>
+                <td>Anzahl Fragen pro Klausur :</td>
+                <td>
+                    <input type="number" id="minQuestions" name="minQuestions"
+                           th:value="${defaultSettings.getMinQuestions()}">
+                    <label for="maxQuestions"> bis </label>
+                    <input type="number" id="maxQuestions" name="maxQuestions"
+                           th:value="${defaultSettings.getMaxQuestions()}">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="maxNotQuestions">Anzahl "Nicht"-Fragen pro Klausur :</label></td>
+                <td><input type="number" id="maxNotQuestions" name="maxNotQuestions"
+                           th:value="${defaultSettings.getMaxNotQuestions()}"></td>
+            </tr>
+            <tr>
+                <td><label for="maxUsedQuestions">Anzahl Fragen aus den letzten Jahren :</label></td>
+                <td><input type="number" id="maxUsedQuestions" name="maxUsedQuestions"
+                           th:value="${defaultSettings.getMaxUsedQuestions()}"></td>
+            </tr>
+            <tr>
+                <td><label for="yearsUntilQuestionsAreFree">Anzahl "letzte" Jahre :</label></td>
+                <td><input type="number" id="yearsUntilQuestionsAreFree" name="yearsUntilQuestionsAreFree"
+                           th:value="${defaultSettings.getYearsUntilQuestionsAreFree()}"></td>
+            </tr>
+            <tr>
+                <td>Anzahl Antworten pro Frage :</td>
+                <td>
+                    <input type="number" id="minAnswers" name="minAnswers"
+                           th:value="${defaultSettings.getMinAnswers()}">
+                    <label for="maxAnswers"> bis </label>
+                    <input type="number" id="maxAnswers" name="maxAnswers"
+                           th:value="${defaultSettings.getMaxAnswers()}">
+                </td>
+            </tr>
+            <tr>
+                <td><label for="maxCorrectAnswers">Anzahl korrekte Antworten pro Frage :</label></td>
+                <td><input type="number" id="maxCorrectAnswers" name="maxCorrectAnswers"
+                           th:value="${defaultSettings.getMaxCorrectAnswers()}"></td>
+            </tr>
+        </table>
+        <input type="hidden" id="name" name="name" th:value="${defaultSettings.getName()}">
+        <input type="reset" value="Zurücksetzen">
+        <input type="submit" value="Speichern">
+    </form>
+</main>
+</body>
+</html>

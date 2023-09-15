@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzerkonto bearbeiten</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header ('Benutzerkonto bearbeiten', ${currentUser.getRoleIndex()})}"></header>
+
+<main class="main-width h-centered">
+    <div>
+        <form class="create-form" th:action="@{/updateUser/{id}(id=${updateUser.getUuid()})}"
+              th:object="${newUser}" method="post">
+            <table>
+                <tr>
+                    <td><label for="name">Name :</label></td>
+                    <td><input name="name" id="name" type="text" th:value="${updateUser.name}"></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Passwort :</label></td>
+                    <td>
+                        <input name="password" id="password" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="roleIndex">Rolle :</label></td>
+                    <td>
+                        <select id="roleIndex" name="roleIndex">
+                            <option th:value="0"
+                                    th:selected="${updateUser.getRoleIndex() == 0}">
+                                Benutzer*in
+                            </option>
+                            <option th:value="1"
+                                    th:selected="${updateUser.getRoleIndex() == 1}">
+                                Moderator*in
+                            </option>
+                            <option th:value="2"
+                                    th:selected="${updateUser.getRoleIndex() == 2}">
+                                Admin
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="reset" value="Zurücksetzen">
+            <input type="submit" value="Speichern">
+        </form>
+    </div>
+</main>
+</body>
+</html>

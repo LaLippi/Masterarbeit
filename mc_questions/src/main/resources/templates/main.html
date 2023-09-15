@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Übersicht</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header (|Hallo, ${currentUser.getName()}!|, ${currentUser.getRoleIndex()})}"></header>
+<main class="h-centered main-width">
+    <div>
+        <h3>Fragen</h3>
+        <table>
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Frage</td>
+                <td>Info</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question : ${allQuestions}">
+                <td th:text="${question.getUuid()}"></td>
+                <td th:text="${question.getQuestionText()}"></td>
+                <td th:text="${question.getQuestionInfo()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${allQuestions.isEmpty()}"><i>Keine Fragen vorhanden</i></div>
+        <a th:href="@{/question}">
+            <button>mehr</button>
+        </a>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div>
+        <h3>Antworten</h3>
+        <table>
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Text</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="answer : ${allAnswers}">
+                <td th:text="${answer.getUuid()}"></td>
+                <td th:text="${answer.getText()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${allAnswers.isEmpty()}"><i>Keine Antworten vorhanden</i></div>
+        <a th:href="@{/answer}">
+            <button>mehr</button>
+        </a>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div>
+        <h3>Klausuren</h3>
+        <table>
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Datum</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${allExams}">
+                <td th:text="${exam.getUuid()}"></td>
+                <td th:text="${exam.getDate().toString()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${allExams.isEmpty()}"><i>Keine Klausuren vorhanden</i></div>
+        <a th:href="@{/exam}">
+            <button>mehr</button>
+        </a>
+    </div>
+
+    <div th:if="${currentUser.getRoleIndex() >= 1}">
+        <div class="spacer"></div>
+
+        <div>
+            <h3>Benutzende</h3>
+            <table>
+                <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Rolle</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${allUsers}">
+                    <td th:text="${user.getUuid()}"></td>
+                    <td th:text="${user.getName()}"></td>
+                    <td th:text="${user.getTranslatedRole()}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <a th:href="@{/user}">
+                <button>mehr</button>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

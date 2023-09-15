@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|Benutzerkonto &quot;${user.getName()}&quot;|"></title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header (|Benutzerkonto &quot;${user.getName()}&quot;|, ${currentUser.getRoleIndex()})}"></header>
+
+<main class="h-centered main-width">
+    <div th:if="${userStatus == 'created'}">
+        <div th:replace="~{fragments/successfulCreation.html :: successfulCreation('Erstellung erfolgreich!')}"></div>
+    </div>
+    <div th:if="${userStatus == 'updated'}">
+        <div th:replace="~{fragments/successfulCreation.html :: successfulCreation('Änderung erfolgreich!')}"></div>
+    </div>
+
+    <table>
+        <tr>
+            <td>ID :</td>
+            <td th:text="${user.getUuid()}"></td>
+        </tr>
+        <tr>
+            <td>Name :</td>
+            <td th:text="${user.getName()}"></td>
+        </tr>
+        <tr>
+            <td>Rolle :</td>
+            <td th:text="${user.getTranslatedRole()}"></td>
+        </tr>
+        <tr>
+            <td>Erstellte Fragen :</td>
+            <td>
+                <form class="inline-more-info" th:each="question : ${user.getAuthoredQuestions()}"
+                      th:action="@{/questionDetail/{id}(id=${question.getUuid()})}" method="post">
+                    <span th:text="|(${question.getUuid()}) ${question.getQuestionText()}|"></span>
+                    <input type="submit" value="mehr Information">
+                </form>
+            </td>
+        </tr>
+    </table>
+    <form th:if="${currentUser.getRoleIndex() == 2}" th:action="@{/toUpdateUser/{id}(id=${user.getUuid()})}"
+          method="post">
+        <input type="submit" value="Bearbeiten"/>
+    </form>
+</main>
+</body>
+</html>

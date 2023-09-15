@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzende</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<header th:replace="~{fragments/header.html :: header ('Benutzende', ${currentUser.getRoleIndex()})}"></header>
+
+<main class="h-centered main-width">
+    <table>
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Rolle</td>
+            <td>Aktionen</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${allUsers}">
+            <td th:text="${user.getUuid()}"></td>
+            <td th:text="${user.getName()}"></td>
+            <td th:text="${user.getTranslatedRole()}"></td>
+            <td>
+                <form class="inline-block" th:action="@{/userDetail/{id}(id=${user.getUuid()})}" method="post">
+                    <input type="submit" value="mehr Information"/>
+                </form>
+                <form th:if="${currentUser.getRoleIndex() == 2}" class="inline-block"
+                      th:action="@{/toUpdateUser/{id}(id=${user.getUuid()})}" method="post">
+                    <input type="submit" value="Bearbeiten"/>
+                </form>
+                <form th:if="${currentUser.getRoleIndex() == 2}" class="inline-block"
+                      th:action="@{/deleteUser/{id}(id=${user.getUuid()})}" method="post">
+                    <input type="submit" value="Löschen"
+                           th:disabled="${currentUser.getUuid() == user.getUuid()}"
+                           onClick="return confirm('Sicher?')"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${currentUser.getRoleIndex() == 2}">
+        <div class="spacer"></div>
+        <h2>Neues Benutzerkonto erstellen</h2>
+        <form class="create-form" th:action="@{/createUser}" th:object="${newUser}" method="post">
+            <table>
+                <tr>
+                    <td><label for="name">Name :</label></td>
+                    <td><input id="name" type="text" th:field="*{name}"></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Passwort :</label></td>
+                    <td><input id="password" type="text" th:field="*{password}"></td>
+                </tr>
+                <tr>
+                    <td><label for="role">Rolle :</label></td>
+                    <td>
+                        <select id="role" th:field="*{roleIndex}">
+                            <option value="0" selected>Benutzer*in</option>
+                            <option value="1">Moderator*in</option>
+                            <option value="2">Admin</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="reset" value="Zurücksetzen"/>
+            <input type="submit" value="Neues Beutzerkonto erstellen"/>
+        </form>
+    </div>
+</main>
+</body>
+
+</html>

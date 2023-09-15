@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|Antwort &quot;${answer.getText()}&quot;|"></title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header (|Antwort &quot;${answer.getText()}&quot;|, ${currentUser.getRoleIndex()})}"></header>
+
+<main class="h-centered main-width">
+    <div th:if="${answerStatus == 'created'}">
+        <div th:replace="~{fragments/successfulCreation.html :: successfulCreation('Erstellung erfolgreich!')}"></div>
+    </div>
+    <div th:if="${answerStatus == 'updated'}">
+        <div th:replace="~{fragments/successfulCreation.html :: successfulCreation('Änderung erfolgreich!')}"></div>
+    </div>
+    <table>
+        <tr>
+            <td>ID :</td>
+            <td th:text="${answer.getUuid()}"></td>
+        </tr>
+        <tr>
+            <td>Text :</td>
+            <td th:text="${answer.getText()}"></td>
+        </tr>
+        <tr>
+            <td>Als korrekte Antwort auf :</td>
+            <td>
+                <form class="inline-more-info" th:each="question : ${answer.getCorrectInQuestions()}"
+                      th:action="@{/questionDetail/{id}(id=${question.getUuid()})}" method="post">
+                    <span th:text="${question.getQuestionText()}"></span>
+                    <input type="submit" value="mehr Information">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>Als inkorrekte Antwort auf :</td>
+            <td>
+                <form class="inline-more-info" th:each="question : ${answer.getIncorrectInQuestions()}"
+                      th:action="@{/questionDetail/{id}(id=${question.getUuid()})}" method="post">
+                    <span th:text="${question.getQuestionText()}"></span>
+                    <input type="submit" value="mehr Information">
+                </form>
+            </td>
+        </tr>
+    </table>
+    <form th:action="@{/toUpdateAnswer/{id}(id=${answer.getUuid()})}" method="post">
+        <input type="submit" value="Bearbeiten"/>
+    </form>
+</main>
+
+</body>
+</html>

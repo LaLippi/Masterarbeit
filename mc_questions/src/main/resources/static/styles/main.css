@@ -1,0 +1,158 @@
+body {
+    margin: 0 0 10px;
+}
+
+.nav-bar {
+    background-color: lightgreen;
+    padding: 15px 10vw;
+    border: solid black;
+    border-width: 1px 0;
+    margin-bottom: 5px;
+}
+
+.h-centered {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-width {
+    min-width: 80%;
+    padding: 0 10vw;
+}
+
+.spacer {
+    margin: 5px 0;
+    border-top: 1px solid black;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.margin-left {
+    margin-left: 15px;
+}
+
+.login-form {
+    background-color: lightgreen;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.info {
+    width: fit-content;
+    min-width: 300px;
+    padding: 10px;
+}
+
+.error {
+    color: red;
+}
+
+.create-form {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.create-form input[type=text], .create-form input[type=number] {
+    width: calc(100% - 10px);
+}
+
+.create-form select {
+    width: 100%;
+}
+
+.inline-more-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
+}
+
+.inline-more-info:nth-child(even) {
+    background-color: lightgray;
+}
+
+.inline-more-info:nth-child(odd) {
+    background-color: white;
+}
+
+.valid-check {
+    padding: 10px;
+    margin: 0 2px;
+    background-color: lightgreen;
+}
+
+.invalid-check {
+    padding: 10px;
+    margin: 0 2px;
+    background-color: lightsalmon;
+}
+
+.invalid-question {
+    background-color: lightsalmon;
+}
+
+.valid-check h3, .invalid-check h3 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.check-result-fields {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.width-25 {
+    width: 25%;
+}
+
+.width-50 {
+    width: 50%;
+}
+
+.export-text {
+    width: calc(100% - 6px);
+}
+
+header > h1, header > h2 {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 100%;
+}
+
+table > thead {
+    font-size: larger;
+    font-weight: bold;
+}
+
+thead td {
+    border: 1px solid black;
+}
+
+td {
+    padding: 5px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+.created {
+    background-color: lightgreen;
+    text-align: center;
+    padding: 5px 0;
+    margin: 2px 2px 0;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.actions form {
+    margin: 2px 0;
+}

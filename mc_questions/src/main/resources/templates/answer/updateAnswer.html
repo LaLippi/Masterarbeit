@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Antwort bearbeiten</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header ('Antwort bearbeiten', ${currentUser.getRoleIndex()})}"></header>
+
+<main class="h-centered main-width">
+    <div>
+        <form th:action="@{/updateAnswer/{id}(id=${updateAnswer.getUuid()})}" th:object="${newAnswer}"
+              method="post">
+            <table>
+                <tr>
+                    <td><label for="text">Antworttext :</label></td>
+                    <td><input name="text" id="text" type="text" th:value="${updateAnswer.text}"></td>
+                </tr>
+            </table>
+            <input type="reset" value="Zurücksetzen">
+            <input type="submit" value="Speichern">
+        </form>
+    </div>
+</main>
+</body>
+</html>

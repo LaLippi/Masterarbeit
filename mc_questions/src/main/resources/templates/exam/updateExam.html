@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Klausur bearbeiten</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header ('Klausur bearbeiten', ${currentUser.getRoleIndex()})}"></header>
+
+<main class="main-width h-centered">
+    <div>
+        <form class="create-form" th:action="@{/updateExam/{id}(id=${updateExam.getUuid()})}"
+              th:object="${newExam}" method="post">
+            <table>
+                <tr>
+                    <td><label for="date">Klausurdatum :</label></td>
+                    <td><input name="date" id="date" type="date" th:value="${updateExam.getDate()}"/></td>
+                </tr>
+                <tr>
+                    <td><label for="questionIds">Fragen :</label></td>
+                    <td>
+                        <select name="questionIds" id="questionIds" multiple>
+                            <option th:each="question : ${allQuestions}"
+                                    th:selected="${updateExam.getQuestionIds().contains(question.getUuid())}"
+                                    th:value="${question.getUuid()}"
+                                    th:text="|(${question.getUuid()}) ${question.questionText}|"></option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="reset" value="Zurücksetzen">
+            <input type="submit" value="Speichern">
+        </form>
+    </div>
+</main>
+</body>
+</html>

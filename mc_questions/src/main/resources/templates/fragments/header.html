@@ -1,0 +1,28 @@
+<header th:fragment="header (heading, role)">
+    <h1 th:text="${#strings.abbreviate(heading, 70)}"></h1>
+    <div class="nav-bar">
+        <form class="inline-block" th:action="@{/main}" method="post">
+            <input type="submit" value="Übersicht"/>
+        </form>
+        <form class="inline-block margin-left" th:action="@{/exam}" method="get">
+            <input type="submit" value="Klausuren"/>
+        </form>
+        <form class="inline-block" th:action="@{/question}" method="get">
+            <input type="submit" value="Fragen"/>
+        </form>
+        <form class="inline-block" th:action="@{/answer}" method="get">
+            <input type="submit" value="Antworten"/>
+        </form>
+        <div class="inline-block" th:if="${role >= 1}">
+            <form class="inline-block margin-left" th:action="@{/user}" method="get">
+                <input type="submit" value="Benutzende"/>
+            </form>
+            <form class="inline-block" th:action="@{/settings}" method="get">
+                <input type="submit" value="Einstellungen"/>
+            </form>
+        </div>
+        <form class="inline-block margin-left" th:action="@{/logout}" method="post">
+            <input type="submit" value="Ausloggen"/>
+        </form>
+    </div>
+</header>

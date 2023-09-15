@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Klausur</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header ('Klausuren', ${currentUser.getRoleIndex()})}"></header>
+
+<main class="h-centered main-width">
+    <table>
+        <thead>
+        <tr>
+            <td>ID</td>
+            <td>Datum</td>
+            <td>Aktionen</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exam : ${allExams}">
+            <td th:text="${exam.getUuid()}"></td>
+            <td th:text="${exam.getDate().toString()}"></td>
+            <td>
+                <form class="inline-block" th:action="@{/examDetail/{id}(id=${exam.getUuid()})}" method="post">
+                    <input type="submit" value="mehr Information"/>
+                </form>
+                <form class="inline-block" th:action="@{/toUpdateExam/{id}(id=${exam.getUuid()})}" method="post">
+                    <input type="submit" value="Bearbeiten"/>
+                </form>
+                <form class="inline-block" th:action="@{/deleteExam/{id}(id=${exam.getUuid()})}" method="post">
+                    <input type="submit" value="Löschen" onClick="return confirm('Sicher?')"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="spacer"></div>
+    <h2>Neue Klausur erstellen</h2>
+    <form class="create-form" th:action="@{/createExam}" th:object="${newExam}" method="post">
+        <table>
+            <tr>
+                <td><label for="date">Datum :</label></td>
+                <td><input id="date" type="date" th:field="*{date}"></td>
+            </tr>
+            <tr>
+                <td><label for="questionIds">Fragen :</label></td>
+                <td>
+                    <select id="questionIds" name="questionIds" multiple size="8">
+                        <option th:each="question : ${allQuestions}" th:value="${question.getUuid()}"
+                                th:text="|(${question.getUuid()}) ${question.getQuestionText()}|"></option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <input type="reset" value="Zurücksetzen"/>
+        <input type="submit" value="Neue Klausur erstellen"/>
+    </form>
+</main>
+
+</body>
+</html>

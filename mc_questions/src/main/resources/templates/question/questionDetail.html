@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|Frage &quot;${question.getQuestionText()}&quot;|"></title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header (|Frage &quot;${question.getQuestionText()}&quot;|, ${currentUser.getRoleIndex()})}"></header>
+
+<main class="h-centered main-width">
+    <div th:class="${(checkResult.valid()) ? 'valid-check' : 'invalid-check'}">
+        <div class="check-result-fields">
+            <div class="width-50">
+                <b th:text="|${checkResult.answers()}/${settings.getMinAnswers()}-${settings.getMaxAnswers()}|"></b>
+                Antworten insgesamt
+            </div>
+            <div class="width-50">
+                <b th:text="|${checkResult.correctAnswers()}/${settings.getMaxCorrectAnswers()}|"></b>
+                korrekte Antworten
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${questionStatus == 'created'}">
+        <div th:replace="~{fragments/successfulCreation.html :: successfulCreation('Erstellung erfolgreich!')}"></div>
+    </div>
+    <div th:if="${questionStatus == 'updated'}">
+        <div th:replace="~{fragments/successfulCreation.html :: successfulCreation('Änderung erfolgreich!')}"></div>
+    </div>
+
+    <table>
+        <tr>
+            <td>ID :</td>
+            <td th:text="${question.getUuid()}"></td>
+        </tr>
+        <tr>
+            <td>Frage :</td>
+            <td th:text="${question.getQuestionText()}"></td>
+        </tr>
+        <tr>
+            <td>Infotext :</td>
+            <td th:text="${question.getQuestionInfo()}"></td>
+        </tr>
+        <tr>
+            <td>"Nicht"-Frage :</td>
+            <td th:text="${(question.isNotQuestion()) ? 'ja' : 'nein'}"></td>
+        </tr>
+        <tr>
+            <td>Korrekte Antwort :</td>
+            <td>
+                <form class="inline-more-info"
+                      th:action="@{/answerDetail/{id}(id=${question.getCorrectAnswer().getUuid()})}" method="post">
+                    <span th:text="|(${question.getCorrectAnswer().getUuid()}) ${question.getCorrectAnswer().getText()}|"></span>
+                    <input type="submit" value="mehr Information">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>Inkorrekte Antworten :</td>
+            <td>
+                <form class="inline-more-info" th:each="answer : ${question.getIncorrectAnswers()}"
+                      th:action="@{/answerDetail/{id}(id=${answer.getUuid()})}" method="post">
+                    <span th:text="|(${answer.getUuid()}) ${answer.getText()}|"></span>
+                    <input type="submit" value="mehr Information">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>Verwendet in Klausuren :</td>
+            <td>
+                <form class="inline-more-info" th:each="exam : ${question.getInExams()}"
+                      th:action="@{/examDetail/{id}(id=${exam.getUuid()})}"
+                      method="post">
+                    <span th:text="|(${exam.getUuid()}) ${exam.getDate().toString()}|"></span>
+                    <input type="submit" value="mehr Information">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>Autor :</td>
+            <td>
+                <form th:unless="${question.getAuthor() == null}"
+                      class="inline-more-info" th:action="@{/userDetail/{id}(id=${question.getAuthor().getUuid()})}"
+                      method="post">
+                    <span th:text="${question.getAuthor().getName()}"></span>
+                    <input type="submit" value="mehr Information" th:disabled="${question.getAuthor() == null}">
+                </form>
+                <span th:if="${question.getAuthor() == null}"><i>gelöscht</i></span>
+            </td>
+        </tr>
+    </table>
+    <form th:action="@{/toUpdateQuestion/{id}(id=${question.getUuid()})}" method="post">
+        <input type="submit" value="Bearbeiten"/>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,10 @@
+version: 0.95.0
+
+mysql_enable: true
+db_host: mc_questions_db
+db_port: 3306
+client_id: "mc_questions"
+tls_auth: 0
+tls_client_id_from_cert: false
+tls_key: /certificates/AcraTLSKey.key
+tls_cert: /certificates/AcraTLSCert.crt

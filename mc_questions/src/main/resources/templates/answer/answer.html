@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Antworten</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<header th:replace="~{fragments/header.html :: header ('Antworten', ${currentUser.getRoleIndex()})}"></header>
+
+<main class="h-centered main-width">
+    <table>
+        <thead>
+        <tr>
+            <td>Text</td>
+            <td>Aktionen</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="answer : ${allAnswers}">
+            <td th:text="${#strings.abbreviate(answer.getText(), 70)}"></td>
+            <td>
+                <form class="inline-block" th:action="@{/answerDetail/{id}(id=${answer.getUuid()})}" method="post">
+                    <input type="submit" value="mehr Information">
+                </form>
+                <form class="inline-block" th:action="@{/toUpdateAnswer/{id}(id=${answer.getUuid()})}" method="post">
+                    <input type="submit" value="Bearbeiten">
+                </form>
+                <form class="inline-block" th:action="@{/deleteAnswer/{id}(id=${answer.getUuid()})}" method="post">
+                    <input type="submit" value="Löschen"
+                           th:disabled="${!answer.getCorrectInQuestions().isEmpty() || !answer.getIncorrectInQuestions().isEmpty()}"
+                           th:title="${!answer.getCorrectInQuestions().isEmpty() || !answer.getIncorrectInQuestions().isEmpty()} ? 'Antwort wird verwendet'"
+                           onClick="return confirm('Sicher?')">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="spacer"></div>
+    <h2>Neue Antwort erstellen</h2>
+    <form class="create-form" th:action="@{/createAnswer}" th:object="${newAnswer}" method="post">
+        <table>
+            <tr>
+                <td><label for="text">Antworttext :</label></td>
+                <td><input id="text" type="text" th:field="*{text}"></td>
+            </tr>
+        </table>
+        <input type="reset" value="Zurücksetzen">
+        <input type="submit" value="Neue Antwort erstellen">
+    </form>
+</main>
+
+</body>
+</html>
