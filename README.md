@@ -16,7 +16,7 @@ Mit diesen Versionen wurde die Anwendung entwickelt. Andere Versionen können eb
 1. ```docker run --name mc_questions_db --network=mc_questions_nw -p 127.0.0.1:3306:3306 -e MYSQL_ROOT_PASSWORD=```[sicheres root-Passwort]``` -d mysql:5.7.29```
 2. ```mysql -uroot -p -P 3306 --protocol=tcp < Anwendung/DB-Schema.sql```
 
-Anschließend läuft ein Docker-Container mit dem Namen ```mc_questions_db``` und kann durch ```docker stop mc_questions_db``` und ```docker start mc_questions_db``` gestartet bzw. gestoppt werden.
+Anschließend läuft ein Docker-Container mit dem Namen ```mc_questions_db``` und kann durch ```docker start mc_questions_db``` und ```docker stop mc_questions_db``` gestartet bzw. gestoppt werden.
 
 ## Acra
 Erzeugen des Docker-Images:
@@ -24,7 +24,7 @@ Erzeugen des Docker-Images:
 2. TLS-Zertifikat erstellen: ```openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out AcraTLSCert.crt -keyout AcraTLSKey.key```
 3. ```./install_acra.sh```
 
-Starten des Containers: ```./Anwendung/acra_server.sh```
+Starten des Containers (im Wurzelordner des Projektes): ```./Anwendung/acra_server.sh```
 
 Der Container gibt Log-Daten im Konsolenfenster aus, daher wird zum Starten der Anwendung etc. eine weitere Konsole empfohlen.
 
@@ -35,8 +35,8 @@ Bauen des JARs:
 2. ```./mvnw clean package```
 
 Ausführen:
-1. Datenbank-Docker-Container starten (```docker start mc_questions_db```)
-2. Acra-Docker-Container starten (```./acra_server.sh```)
+1. Datenbank-Docker-Container starten (```docker start mc_questions_db```), wenn nicht bereits laufend
+2. Acra-Docker-Container starten (```./acra_server.sh```), wenn nicht bereits laufend
 3. ```java -jar ```[...]```/mc_questions/target/mc_questions-1.0.jar``` (oder mit bereits gebauter Version ```java -jar mc_questions-1.0.jar``` im Wurzelordner)
 
 Zugriff: Im Browser über ```https://localhost:8443```
